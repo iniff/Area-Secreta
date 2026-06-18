@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surpresa!</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            background-color: black;
+        }
+
+        /* TELA DE ENTRADA: O truque para enganar o navegador */
+        #tela-entrada {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            color: white;
+        }
+
+        #btn-entrar {
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: black;
+            background-color: #fff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            transition: transform 0.2s;
+        }
+
+        #btn-entrar:hover {
+            transform: scale(1.05);
+        }
+
+        /* CONTEÚDO PRINCIPAL (Escondido no começo) */
+        #conteudo-principal {
+            display: none; /* Só aparece após o clique */
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            
+            /* Fundo da bandeira LGBT */
+            background: linear-gradient(
+                to bottom, 
+                #FF0018 0%, #FF0018 16.66%, 
+                #FFA52C 16.66%, #FFA52C 33.33%, 
+                #FFFF41 33.33%, #FFFF41 50%, 
+                #008018 50%, #008018 66.66%, 
+                #0000F9 66.66%, #0000F9 83.33%, 
+                #86007D 83.33%, #86007D 100%
+            );
+            
+            animation: fadeIn 1.5s ease-in forwards;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes piscaRapido {
+            0% { color: lime; opacity: 1; }
+            16% { color: orange; opacity: 0.2; }
+            33% { color: cyan; opacity: 1; }
+            50% { color: magenta; opacity: 0.2; }
+            66% { color: white; opacity: 1; }
+            83% { color: black; opacity: 0.2; }
+            100% { color: lime; opacity: 1; }
+        }
+
+        #mensagem {
+            font-size: 3rem;
+            text-align: center;
+            font-weight: bold;
+            animation: piscaRapido 0.5s infinite;
+            margin-bottom: 20px;
+            padding: 0 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,1); 
+        }
+
+        #video-container {
+            max-width: 90%;
+        }
+
+        video {
+            width: 100%;
+            max-width: 600px;
+            border: 5px solid white;
+            box-shadow: 0px 0px 30px rgba(0,0,0,0.8);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="tela-entrada">
+        <h2 style="margin-bottom: 30px; text-align: center; padding: 0 20px;">Você recebeu uma mensagem especial!</h2>
+        <button id="btn-entrar" onclick="iniciarZoeira()">🎁 Abrir Surpresa</button>
+    </div>
+
+    <div id="conteudo-principal">
+        <div id="mensagem">
+            <span id="nome-amigo"></span>, você é BOIOLA KKKKKKKKKKKKK
+        </div>
+
+        <div id="video-container">
+            <video id="meu-video" loop playsinline>
+                <source src="video.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <audio id="meu-audio" loop>
+        <source src="musica.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Pega o nome da URL
+        const parametros = new URLSearchParams(window.location.search);
+        let nome = parametros.get('nome');
+        
+        if (!nome) {
+            nome = "Amigo";
+        }
+
+        document.getElementById('nome-amigo').textContent = nome;
+
+        // Função que é executada quando a vítima clica no botão
+        function iniciarZoeira() {
+            // Esconde a tela de entrada
+            document.getElementById('tela-entrada').style.display = 'none';
+            
+            // Exibe o conteúdo principal
+            const conteudo = document.getElementById('conteudo-principal');
+            conteudo.style.display = 'flex';
+
+            // Dá o play com som liberado pelo navegador!
+            const audio = document.getElementById('meu-audio');
+            const video = document.getElementById('meu-video');
+
+            audio.play().catch(e => console.log("Erro ao tocar áudio:", e));
+            video.play().catch(e => console.log("Erro ao tocar vídeo:", e));
+        }
+    </script>
+</body>
+</html>
